@@ -73,7 +73,6 @@ func (m *Manager) applyChats(ctx context.Context, input ...tg.ChatClass) error {
 			k Key
 			v Value
 		)
-		// FIXME(tdakkota): check min constructors
 		switch ch := ch.(type) {
 		case *tg.Chat:
 			k.ID = ch.ID
@@ -88,8 +87,16 @@ func (m *Manager) applyChats(ctx context.Context, input ...tg.ChatClass) error {
 			k.ID = ch.ID
 			v.AccessHash = ch.AccessHash
 			k.Prefix = channelPrefix
-			channels = append(channels, ch)
 
+			if ch.Min {
+				// If Min is true, skip updating existing peer as it corrupts the full AccessHash
+				if _, ok, err := m.storage.Find(ctx, k); err != nil || ok {
+					// FIXME: merge old channel data with new data from min constructor
+					continue
+				}
+			}
+
+			channels = append(channels, ch)
 			ids = append(ids, channelPeerID(ch.ID))
 		case *tg.ChannelForbidden:
 			k.ID = ch.ID
@@ -147,27 +154,6 @@ func (m *Manager) applyFullChannel(ctx context.Context, ch *tg.ChannelFull) erro
 	}
 	m.updatedFull(channelPeerID(ch.ID))
 	return m.cache.SaveChannelFulls(ctx, ch)
-}
-
-func (m *Manager) applyMessagesChats(
-	ctx context.Context,
-	all tg.MessagesChatsClass,
-) (chats []Chat, channels []Channel, _ error) {
-	raw := all.GetChats()
-	if err := m.applyChats(ctx, raw...); err != nil {
-		return nil, nil, errors.Wrap(err, "apply chats")
-	}
-
-	for _, ch := range raw {
-		switch ch := ch.(type) {
-		case *tg.Chat:
-			chats = append(chats, m.Chat(ch))
-		case *tg.Channel:
-			channels = append(channels, m.Channel(ch))
-		}
-	}
-
-	return chats, channels, nil
 }
 
 func (m *Manager) updateContacts(ctx context.Context) ([]tg.UserClass, error) {

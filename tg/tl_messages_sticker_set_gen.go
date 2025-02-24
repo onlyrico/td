@@ -40,7 +40,7 @@ type MessagesStickerSet struct {
 	Set StickerSet
 	// Emoji info for stickers
 	Packs []StickerPack
-	// Keywords field of MessagesStickerSet.
+	// Keywords for some or every sticker in the stickerset.
 	Keywords []StickerKeyword
 	// Stickers in stickerset
 	Documents []DocumentClass
@@ -408,6 +408,10 @@ const MessagesStickerSetClassName = "messages.StickerSet"
 // MessagesStickerSetClass represents messages.StickerSet generic type.
 //
 // See https://core.telegram.org/type/messages.StickerSet for reference.
+//
+// Constructors:
+//   - [MessagesStickerSet]
+//   - [MessagesStickerSetNotModified]
 //
 // Example:
 //

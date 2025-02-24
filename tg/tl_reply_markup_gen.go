@@ -480,7 +480,7 @@ type ReplyKeyboardMarkup struct {
 	// A user requests to change the bot's language, bot replies to the request with a
 	// keyboard to select the new language. Other users in the group don't see the keyboard.
 	Selective bool
-	// Persistent field of ReplyKeyboardMarkup.
+	// Requests clients to always show the keyboard when the regular keyboard is hidden.
 	Persistent bool
 	// Button row
 	Rows []KeyboardButtonRow
@@ -980,6 +980,12 @@ const ReplyMarkupClassName = "ReplyMarkup"
 // ReplyMarkupClass represents ReplyMarkup generic type.
 //
 // See https://core.telegram.org/type/ReplyMarkup for reference.
+//
+// Constructors:
+//   - [ReplyKeyboardHide]
+//   - [ReplyKeyboardForceReply]
+//   - [ReplyKeyboardMarkup]
+//   - [ReplyInlineMarkup]
 //
 // Example:
 //

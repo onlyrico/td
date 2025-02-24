@@ -443,6 +443,10 @@ func (c *AuthCodeTypeMissedCall) DecodeBare(b *bin.Buffer) error {
 }
 
 // AuthCodeTypeFragmentSMS represents TL type `auth.codeTypeFragmentSms#6ed998c`.
+// The next time, the authentication code will be delivered via fragment.com¹
+//
+// Links:
+//  1. https://fragment.com
 //
 // See https://core.telegram.org/constructor/auth.codeTypeFragmentSms for reference.
 type AuthCodeTypeFragmentSMS struct {
@@ -549,6 +553,13 @@ const AuthCodeTypeClassName = "auth.CodeType"
 // AuthCodeTypeClass represents auth.CodeType generic type.
 //
 // See https://core.telegram.org/type/auth.CodeType for reference.
+//
+// Constructors:
+//   - [AuthCodeTypeSMS]
+//   - [AuthCodeTypeCall]
+//   - [AuthCodeTypeFlashCall]
+//   - [AuthCodeTypeMissedCall]
+//   - [AuthCodeTypeFragmentSMS]
 //
 // Example:
 //

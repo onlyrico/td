@@ -760,7 +760,10 @@ type MessagesChannelMessages struct {
 	OffsetIDOffset int
 	// Found messages
 	Messages []MessageClass
-	// Topics field of MessagesChannelMessages.
+	// Forum topic¹ information
+	//
+	// Links:
+	//  1) https://core.telegram.org/api/forum#forum-topics
 	Topics []ForumTopicClass
 	// Chats
 	Chats []ChatClass
@@ -1345,6 +1348,12 @@ const MessagesMessagesClassName = "messages.Messages"
 // MessagesMessagesClass represents messages.Messages generic type.
 //
 // See https://core.telegram.org/type/messages.Messages for reference.
+//
+// Constructors:
+//   - [MessagesMessages]
+//   - [MessagesMessagesSlice]
+//   - [MessagesChannelMessages]
+//   - [MessagesMessagesNotModified]
 //
 // Example:
 //
